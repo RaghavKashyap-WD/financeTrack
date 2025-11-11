@@ -1,6 +1,6 @@
-fastapi
-uvicorn[standard]
-sqlalchemy
+SQLAlchemy
 pymysql
 python-dotenv
-pydantic
+passlib
+matplotlib
+cryptography

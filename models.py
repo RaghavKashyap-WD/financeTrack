@@ -7,6 +7,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String(100), nullable=False, unique=True)
     email = Column(String(255))
+    password_hash = Column(String(255), nullable=False)  # new: store hashed password
 
     expenses = relationship("Expense", back_populates="user", cascade="all, delete-orphan")
 
