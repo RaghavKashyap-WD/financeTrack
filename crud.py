@@ -3,16 +3,18 @@ from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from db import SessionLocal
 from models import User, Category, Expense
 from sqlalchemy.orm import joinedload
-from passlib.hash import bcrypt
 from datetime import datetime, timedelta
 from sqlalchemy import func
 
 # ---------- USER ----------
 def create_user(username, password, email=None):
-    """Create user with password hashed."""
+    """Create user (password stored as plain text)."""
     with SessionLocal() as s:
-        hashed = bcrypt.hash(password)
-        u = User(username=username.strip(), email=(email.strip() if email else None), password_hash=hashed)
+        u = User(
+            username=username.strip(),
+            email=(email.strip() if email else None),
+            password_hash=password  # store as plain text
+        )
         s.add(u)
         try:
             s.commit()
@@ -35,7 +37,7 @@ def authenticate_user(identifier, password):
             u = q.filter(User.username == identifier.strip()).first()
         if not u:
             return None
-        if bcrypt.verify(password, u.password_hash):
+        if password == u.password_hash:  # plain-text check
             return u
         return None
 
@@ -66,7 +68,12 @@ def list_categories():
 # ---------- EXPENSE ----------
 def create_expense(user_id, category_id, name, amount):
     with SessionLocal() as s:
-        e = Expense(user_id=user_id, category_id=category_id, name=name.strip(), amount=Decimal(str(amount)))
+        e = Expense(
+            user_id=user_id,
+            category_id=category_id,
+            name=name.strip(),
+            amount=Decimal(str(amount))
+        )
         s.add(e)
         try:
             s.commit()
@@ -77,8 +84,7 @@ def create_expense(user_id, category_id, name, amount):
             raise
 
 def list_expenses(user_id=None):
-    """Return expenses with user and category eagerly loaded so they are usable after session closes.
-       If user_id provided, returns only that user's expenses."""
+    """Return expenses with user and category eagerly loaded."""
     with SessionLocal() as s:
         q = s.query(Expense).options(
             joinedload(Expense.user),
@@ -118,11 +124,9 @@ def delete_expense(expense_id):
 
 # ---------- AGGREGATION FOR GRAPH ----------
 def get_expense_aggregates_by_date(user_id, days):
-    """Return list of tuples (date: datetime.date, total: Decimal) for the last `days` days (including today).
-       Dates with 0 total will be included (as 0)."""
+    """Return list of tuples (date: datetime.date, total: Decimal) for last `days` days."""
     end = datetime.utcnow()
-    start = end - timedelta(days=days-1)  # include today => days entries
-    # Use SQL to aggregate by date (date of created_at)
+    start = end - timedelta(days=days-1)
     with SessionLocal() as s:
         rows = s.query(
             func.date(Expense.created_at).label("d"),
@@ -133,9 +137,7 @@ def get_expense_aggregates_by_date(user_id, days):
             Expense.created_at <= end
         ).group_by(func.date(Expense.created_at)).all()
 
-    # rows is list of (date, total) where date is datetime.date
-    # Build full date list and map totals (ensure zero-filled days)
-    dates = [ (end - timedelta(days=i)).date() for i in range(days-1, -1, -1) ]  # oldest -> newest
+    dates = [(end - timedelta(days=i)).date() for i in range(days-1, -1, -1)]
     totals_map = {r.d: Decimal(str(r.total)) for r in rows}
-    totals = [ totals_map.get(d, Decimal("0.00")) for d in dates ]
+    totals = [totals_map.get(d, Decimal("0.00")) for d in dates]
     return dates, totals

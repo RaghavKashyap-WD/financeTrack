@@ -9,12 +9,10 @@ from crud import (
     authenticate_user, get_expense_aggregates_by_date
 )
 from models import User, Category, Expense
-import getpass
 from datetime import datetime
 import os
-
-# plotting
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
@@ -62,19 +60,19 @@ def choose_from_list(items, title):
             return int(n) - 1
         print("Invalid choice.")
 
-# ---------- AUTH (CLI) ----------
-current_user = None  # will hold User object when logged in
+# ---------- AUTH ----------
+current_user = None
 
 def cmd_register():
     print("\n--- Register new user ---")
     username = input_nonempty("Username: ", 100)
     email = input("Email (optional): ").strip() or None
     while True:
-        pw = getpass.getpass("Password (min 6 chars): ")
+        pw = input("Password (min 6 chars): ").strip()
         if len(pw) < 6:
             print("Password too short.")
             continue
-        pw2 = getpass.getpass("Confirm password: ")
+        pw2 = input("Confirm password: ").strip()
         if pw != pw2:
             print("Passwords don't match.")
             continue
@@ -89,7 +87,7 @@ def cmd_login():
     global current_user
     print("\n--- Login ---")
     identifier = input_nonempty("Username or Email: ")
-    pw = getpass.getpass("Password: ")
+    pw = input("Password: ").strip()
     u = authenticate_user(identifier, pw)
     if not u:
         print("Login failed: bad credentials.")
@@ -119,7 +117,6 @@ def cmd_add_expense():
     if not current_user:
         print("You must be logged in to add an expense.")
         return
-
     cats = list_categories()
     if not cats:
         print("No categories. Create one first.")
@@ -142,13 +139,22 @@ def cmd_list_expenses():
     if not current_user:
         print("You must be logged in to list your expenses.")
         return
+
     exps = list_expenses(user_id=current_user.id)
     if not exps:
         print("No expenses found.")
         return
+
+    # Header
     print(f"\nExpenses for {current_user.username}:")
+    print(f"{'ID':<4} {'Category':<15} {'Name':<25} {'Amount (₹)':<12} {'Created':<20} {'Updated':<20}")
+    print("-" * 100)
+
+    # Rows
     for e in exps:
-        print(f"ID:{e.id} | Category:{e.category.name} | {e.name} | ₹{float(e.amount):.2f} | Created:{e.created_at} | Updated:{e.updated_at}")
+        print(f"{e.id:<4} {e.category.name:<15} {e.name:<25} {float(e.amount):<12.2f} "
+              f"{e.created_at.strftime('%Y-%m-%d %H:%M:%S'):<20} {e.updated_at.strftime('%Y-%m-%d %H:%M:%S'):<20}")
+
 
 def cmd_update_expense():
     global current_user
@@ -157,7 +163,7 @@ def cmd_update_expense():
         return
     exps = list_expenses(user_id=current_user.id)
     if not exps:
-        print("No expenses to update.")
+        print("No expenses found.")
         return
     exp = exps[choose_from_list(exps, "expense")]
     new_name = input(f"New name [{exp.name}]: ").strip() or exp.name
@@ -178,9 +184,8 @@ def cmd_update_expense():
         cat_id = cats[int(cat_choice) - 1].id
     else:
         cat_id = exp.category_id
-
-    updated = update_expense(exp.id, name=new_name, amount=new_amount, category_id=cat_id)
-    print("✅ Updated successfully. (updated_at auto-changed)")
+    update_expense(exp.id, name=new_name, amount=new_amount, category_id=cat_id)
+    print("✅ Updated successfully.")
 
 def cmd_delete_expense():
     global current_user
@@ -189,16 +194,17 @@ def cmd_delete_expense():
         return
     exps = list_expenses(user_id=current_user.id)
     if not exps:
-        print("No expenses to delete.")
+        print("No expenses found.")
         return
     exp = exps[choose_from_list(exps, "expense")]
-    confirm = input(f"Type 'yes' or 'y' to delete {exp.name}: ").strip().lower()
+    confirm = input(f"Type 'yes' to delete {exp.name}: ").strip().lower()
     if confirm in ("yes", "y"):
         delete_expense(exp.id)
         print("✅ Deleted.")
     else:
         print("Cancelled.")
 
+        
 # ---------- Graphing ----------
 RANGES = {
     "1": ("7 days", 7),
@@ -212,25 +218,31 @@ def cmd_show_graph():
     if not current_user:
         print("You must be logged in to view graphs.")
         return
+
     print("\nChoose range:")
     for k, (label, _) in RANGES.items():
         print(f" {k}) {label}")
+
     choice = input("Choice: ").strip()
     if choice not in RANGES:
         print("Invalid choice.")
         return
+
     label, days = RANGES[choice]
-    print(f"Generating graph for last {label}...")
 
     dates, totals = get_expense_aggregates_by_date(current_user.id, days)
 
-    # Plot using matplotlib and save PNG
-    # x labels as short "YYYY-MM-DD" strings
-    x = [d.strftime("%Y-%m-%d") for d in dates]
+    # Keep datetime objects directly
+    x = dates
     y = [float(t) for t in totals]
 
     plt.figure(figsize=(10, 4))
     plt.plot(x, y, marker='o')
+
+    # Automatic date formatting
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d"))
+    plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
+
     plt.title(f"Expenses for {current_user.username} — last {label}")
     plt.xlabel("Date")
     plt.ylabel("Total (₹)")
@@ -238,9 +250,14 @@ def cmd_show_graph():
     plt.tight_layout()
 
     filename = f"expenses_{current_user.username}_{days}d.png"
-    plt.savefig(filename)
-    plt.close()
+    plt.savefig(f"C:/Users/Lenovo/Desktop/RaghavKashyap/financeTrack/graphs/{filename}")
     print(f"Graph saved to {os.path.abspath(filename)}")
+
+    plt.show(block=False)
+    plt.pause(0.1)
+
+    
+
 
 # ---------- Menu ----------
 def show_menu():
