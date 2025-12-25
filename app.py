@@ -1,4 +1,3 @@
-import logging
 from decimal import Decimal
 from db import engine, Base
 from crud import (
@@ -9,12 +8,9 @@ from crud import (
     authenticate_user, get_expense_aggregates_by_date
 )
 from models import User, Category, Expense
-from datetime import datetime
 import os
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-
-logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 def init_db():
     Base.metadata.create_all(engine)
