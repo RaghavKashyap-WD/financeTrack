@@ -5,7 +5,7 @@ A comprehensive personal finance management application built with Flask and Pyt
 ## Features
 
 ✨ **Core Features:**
-- 👤 **User Authentication** - Secure registration and login system with password hashing
+- 👤 **User Authentication** - Secure registration and login system with
 - 💰 **Expense Tracking** - Add, edit, and delete expenses with detailed information
 - 🏷️ **Category Management** - Create and manage custom expense categories
 - 📊 **Data Visualization** - Interactive charts and graphs to visualize spending patterns
@@ -18,7 +18,6 @@ A comprehensive personal finance management application built with Flask and Pyt
 - **Database:** MySQL with SQLAlchemy ORM
 - **Frontend:** HTML, CSS, JavaScript
 - **Visualization:** Matplotlib for data visualization
-- **Authentication:** Password hashing with cryptography
 - **Environment:** Python dotenv for configuration management
 
 ## Project Structure
@@ -43,11 +42,9 @@ financeTrack/
 - user_id (Primary Key)
 - username (Unique)
 - email
-- password_hash
 - Relationships: Many expenses, many categories
 
 ### Category
-- category_id (Primary Key)
 - name (Unique)
 - user_id (Foreign Key)
 - Relationships: Many expenses
