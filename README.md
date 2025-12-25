@@ -113,11 +113,9 @@ financeTrack/
 - **python-dotenv** - Environment variable management
 - **passlib** - Password hashing utilities
 - **matplotlib** - Data visualization and graphing
-- **cryptography** - Cryptographic recipes and primitives
 
 See `requirements.txt` for complete list of dependencies.
 
-## Usage
 
 ### Creating an Account
 1. Navigate to the registration page
