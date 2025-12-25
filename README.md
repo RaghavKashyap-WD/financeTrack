@@ -111,11 +111,9 @@ financeTrack/
 - **SQLAlchemy** - SQL toolkit and Object-Relational Mapping (ORM)
 - **PyMySQL** - MySQL database driver
 - **python-dotenv** - Environment variable management
-- **passlib** - Password hashing utilities
 - **matplotlib** - Data visualization and graphing
 
 See `requirements.txt` for complete list of dependencies.
-
 
 ### Creating an Account
 1. Navigate to the registration page
