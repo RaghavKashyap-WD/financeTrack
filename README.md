@@ -230,15 +230,3 @@ This is a school project. For questions or suggestions, please open an issue on 
 **Raghav Kashyap** - [@RaghavKashyap-WD](https://github.com/RaghavKashyap-WD)
 
 Class 12 CBSE - Full Stack Python Project (2025-2026)
-
-## Acknowledgments
-
-- Python documentation
-- SQLAlchemy ORM tutorials
-- MySQL database concepts
-- Matplotlib visualization guides
-- Database design best practices
-
----
-
-**Made with ❤️ as a school project demonstrating Python and database fundamentals**
