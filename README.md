@@ -225,15 +225,11 @@ This is a Class 12 school project demonstrating:
 
 This is a school project. For questions or suggestions, please open an issue on GitHub.
 
-## License
-
-This project is open source and available under the MIT License.
-
 ## Author
 
 **Raghav Kashyap** - [@RaghavKashyap-WD](https://github.com/RaghavKashyap-WD)
 
-Class 12 CBSE - Full Stack Python Project (2024-2025)
+Class 12 CBSE - Full Stack Python Project (2025-2026)
 
 ## Acknowledgments
 
