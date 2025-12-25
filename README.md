@@ -114,65 +114,91 @@ financeTrack/
 
 See `requirements.txt` for complete list of dependencies.
 
+117
 ## Usage
 
-### Main Menu
-When you run the application, you'll see a main menu with the following options:
+### CLI Interface Overview
+
+When you run the application, you'll see the following menu interface:
+
 ```
-1. Register
-2. Login
-3. Exit
+===== Expense Tracker =====
+Auth:
+  r) Register
+  l) Login
+  o) Logout
+
+Actions (login required):
+1) Create category
+2) Add expense
+3) List my expenses
+4) Update expense
+5) Delete expense
+6) Show expense graph
+7) Exit
+
+Choose option: █
 ```
 
-### User Registration
-1. Select "Register" from main menu
-2. Enter desired username and email
-3. Create a password
-4. Account will be created successfully
+### Step-by-Step Usage
 
-### User Login
-1. Select "Login" from main menu
-2. Enter username or email
-3. Enter password
-4. On successful login, access user menu
+**1. Register a New Account**
+   - Press 'r' at the main menu
+   - Enter desired username
+   - Enter email address
+   - Choose your password
+   - Account created successfully
 
-### User Menu (After Login)
-Once logged in, you have access to:
+**2. Login to Your Account**
+   - Press 'l' at the main menu
+   - Enter username or email
+   - Enter your password
+   - Access user action menu
 
-**1. Add Expense**
+**3. Create a Category** (Option 1)
+   - Select option '1' from actions menu
+   - Enter category name (e.g., "Food", "Transport", "Entertainment")
+   - Category saved to database
+
+**4. Add an Expense** (Option 2)
+   - Select option '2' from actions menu
    - Enter expense amount
-   - Add description
-   - Select category (or create new one)
-   - Save to database
+   - Add description/notes
+   - Select from existing categories or create new
+   - Expense recorded with current date
 
-**2. View All Expenses**
-   - Display all expenses for current user
-   - Shows amount, description, category, and date
-   - Paginated or filtered view
+**5. View All Your Expenses** (Option 3)
+   - Select option '3' from actions menu
+   - View table of all your expenses
+   - Shows: Amount, Description, Category, Date
+   - Filter or sort as needed
 
-**3. Update Expense**
-   - Select expense from list
-   - Modify amount, description, or category
-   - Save changes
+**6. Update an Expense** (Option 4)
+   - Select option '4' from actions menu
+   - Choose expense to modify
+   - Update amount, description, or category
+   - Changes saved to database
 
-**4. Delete Expense**
-   - Select expense to delete
+**7. Delete an Expense** (Option 5)
+   - Select option '5' from actions menu
+   - Select expense to remove
    - Confirm deletion
-   - Expense removed from database
+   - Expense permanently removed
 
-**5. Manage Categories**
-   - Create new expense categories
-   - View all categories
-   - Edit or delete categories
+**8. View Expense Graph** (Option 6)
+   - Select option '6' from actions menu
+   - Displays graph of expenses
+   - Visual representation of spending by category
+   - Shows spending trends
 
-**6. View Charts/Visualizations**
-   - Generate spending charts
-   - View expense distribution by category
-   - See spending trends
-
-**7. Logout**
-   - Return to main menu
+**9. Logout** (Option 'o')
+   - Press 'o' to logout
+   - Return to main authentication menu
    - Session ends
+
+**10. Exit Application** (Option 7)
+   - Select option '7' to exit
+   - Closes the application
 
 ## Project Status
 
