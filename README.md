@@ -1,4 +1,4 @@
-# financeTrack
+# SmartSpend
 
 A command-line personal finance management application built with Python. Track your expenses, manage categories, and visualize spending patterns through an interactive CLI interface.
 
