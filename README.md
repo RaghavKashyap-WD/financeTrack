@@ -1,30 +1,29 @@
 # financeTrack
 
-A comprehensive personal finance management application built with Flask and Python. Track your expenses, manage categories, visualize spending patterns, and maintain complete control over your financial data.
+A command-line personal finance management application built with Python. Track your expenses, manage categories, and visualize spending patterns through an interactive CLI interface.
 
 ## Features
 
 ✨ **Core Features:**
-- 👤 **User Authentication** - Secure registration and login system with
-- 💰 **Expense Tracking** - Add, edit, and delete expenses with detailed information
+- 👤 **User Authentication** - User registration and login system
+- 💰 **Expense Tracking** - Add, view, update, and delete expenses through CLI
 - 🏷️ **Category Management** - Create and manage custom expense categories
-- 📊 **Data Visualization** - Interactive charts and graphs to visualize spending patterns
-- 🔐 **Secure Database** - MySQL database with SQLAlchemy ORM for data persistence
-- 📅 **Date-based Aggregation** - View expense summaries grouped by date
+- 📊 **Data Visualization** - Generate graphs to visualize spending patterns
+- 🔐 **Data Persistence** - MySQL database with SQLAlchemy ORM
+- 📅 **Expense Filtering** - View expenses by category, date, or user
 
 ## Tech Stack
 
-- **Backend:** Flask (Python)
+- **Backend:** Python with CLI interface
 - **Database:** MySQL with SQLAlchemy ORM
-- **Frontend:** HTML, CSS, JavaScript
-- **Visualization:** Matplotlib for data visualization
+- **Visualization:** Matplotlib for charts and graphs
 - **Environment:** Python dotenv for configuration management
 
 ## Project Structure
 
 ```
 financeTrack/
-├── app.py              # Main Flask application entry point
+├── app.py              # Main CLI application entry point
 ├── config.py           # Database configuration and environment variables
 ├── models.py           # SQLAlchemy database models (User, Category, Expense)
 ├── db.py               # Database instance initialization
@@ -45,6 +44,7 @@ financeTrack/
 - Relationships: Many expenses, many categories
 
 ### Category
+- category_id (Primary Key)
 - name (Unique)
 - user_id (Foreign Key)
 - Relationships: Many expenses
@@ -104,7 +104,6 @@ financeTrack/
    ```bash
    python app.py
    ```
-   The application will be available at `http://localhost:5000`
 
 ## Dependencies
 
@@ -115,86 +114,86 @@ financeTrack/
 
 See `requirements.txt` for complete list of dependencies.
 
-### Creating an Account
-1. Navigate to the registration page
-2. Enter username, email, and password
-3. Click register to create your account
+## Usage
 
-### Managing Expenses
-1. **Add Expense:**
-   - Click "Add Expense" button
-   - Enter amount, description, and select category
-   - Choose date and submit
-
-2. **View Expenses:**
-   - See all your expenses in a table format
-   - Filter by category or date range
-
-3. **Update Expense:**
-   - Click edit button next to any expense
-   - Modify details and save
-
-4. **Delete Expense:**
-   - Click delete button to remove an expense
-
-### Managing Categories
-1. Create custom expense categories
-2. View all categories and their expense summaries
-3. Edit or delete categories as needed
-
-### Visualizing Data
-1. Access the analytics/graphs section
-2. View expense distribution by category
-3. See spending trends over time
-4. Download or export visualizations
-
-## API Endpoints
-
-### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login user
-- `POST /api/auth/logout` - Logout user
-
-### Expenses
-- `GET /api/expenses` - Get all user expenses
-- `POST /api/expenses` - Create new expense
-- `GET /api/expenses/<id>` - Get specific expense
-- `PUT /api/expenses/<id>` - Update expense
-- `DELETE /api/expenses/<id>` - Delete expense
-- `GET /api/expenses/aggregates` - Get expense aggregates by date
-
-### Categories
-- `GET /api/categories` - Get all user categories
-- `POST /api/categories` - Create new category
-- `PUT /api/categories/<id>` - Update category
-- `DELETE /api/categories/<id>` - Delete category
-
-## Testing
-
-Run the test suite:
-```bash
-python test.py
+### Main Menu
+When you run the application, you'll see a main menu with the following options:
 ```
+1. Register
+2. Login
+3. Exit
+```
+
+### User Registration
+1. Select "Register" from main menu
+2. Enter desired username and email
+3. Create a password
+4. Account will be created successfully
+
+### User Login
+1. Select "Login" from main menu
+2. Enter username or email
+3. Enter password
+4. On successful login, access user menu
+
+### User Menu (After Login)
+Once logged in, you have access to:
+
+**1. Add Expense**
+   - Enter expense amount
+   - Add description
+   - Select category (or create new one)
+   - Save to database
+
+**2. View All Expenses**
+   - Display all expenses for current user
+   - Shows amount, description, category, and date
+   - Paginated or filtered view
+
+**3. Update Expense**
+   - Select expense from list
+   - Modify amount, description, or category
+   - Save changes
+
+**4. Delete Expense**
+   - Select expense to delete
+   - Confirm deletion
+   - Expense removed from database
+
+**5. Manage Categories**
+   - Create new expense categories
+   - View all categories
+   - Edit or delete categories
+
+**6. View Charts/Visualizations**
+   - Generate spending charts
+   - View expense distribution by category
+   - See spending trends
+
+**7. Logout**
+   - Return to main menu
+   - Session ends
 
 ## Project Status
 
-This is a Class 12 school project demonstrating full-stack web development concepts including:
-- Backend development with Flask
+This is a Class 12 school project demonstrating:
+- Python programming fundamentals
 - Database design and management
-- User authentication and security
+- User authentication and session management
+- CLI application development
 - Data visualization techniques
-- RESTful API design
+- CRUD operations
 
 ## Future Enhancements
 
-- 📱 Mobile-responsive design improvements
-- 🔔 Transaction notifications and alerts
-- 📈 Advanced analytics and reporting
+- 📊 Advanced analytics and reporting
 - 💾 Data export to CSV/PDF
-- 🌙 Dark mode support
-- 🔐 OAuth2 authentication
-- 📊 Budget tracking and forecasting
+- 🔔 Budget tracking and alerts
+- 📱 Web-based interface
 - 💳 Multi-account support
+- 🔐 Enhanced security features
+- 📈 Recurring expense support
+- 🎯 Budget goals and targets
 
 ## Contributing
 
@@ -208,16 +207,16 @@ This project is open source and available under the MIT License.
 
 **Raghav Kashyap** - [@RaghavKashyap-WD](https://github.com/RaghavKashyap-WD)
 
-Class 12 CBSE - Full Stack Web Development Project (2024-2025)
+Class 12 CBSE - Full Stack Python Project (2024-2025)
 
 ## Acknowledgments
 
-- Flask framework documentation
+- Python documentation
 - SQLAlchemy ORM tutorials
 - MySQL database concepts
 - Matplotlib visualization guides
-- Python security best practices
+- Database design best practices
 
 ---
 
-**Made with ❤️ as a school project demonstrating web development fundamentals**
+**Made with ❤️ as a school project demonstrating Python and database fundamentals**
