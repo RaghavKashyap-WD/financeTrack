@@ -1,4 +1,5 @@
 SQLAlchemy
 pymysql
 python-dotenv
+pandas
 matplotlib
